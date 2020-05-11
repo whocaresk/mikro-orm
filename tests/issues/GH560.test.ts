@@ -58,7 +58,7 @@ describe('GH issue 560', () => {
     orm = await MikroORM.init({
       entities: [ASchema, BaseSchema],
       dbName: `mikro_orm_test_gh_560`,
-      type: 'mysql',
+      type: 'postgresql',
       cache: { enabled: false },
     });
     await orm.getSchemaGenerator().ensureDatabase();
@@ -76,12 +76,12 @@ describe('GH issue 560', () => {
     orm.em.persist(children);
     orm.em.persist(parent);
 
-    await expect(orm.em.flush).resolves.not.toThrow();
+    await expect(orm.em.flush()).resolves.not.toThrow();
 
     orm.em.clear();
 
     const fetchedParent = await orm.em.findOneOrFail(A, {type: 'parent'}, true);
 
-    expect(fetchedParent.childrenA).toBeDefined();
+    expect(fetchedParent.childrenA).toBeTruthy();
   });
 });
