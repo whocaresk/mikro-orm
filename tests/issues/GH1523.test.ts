@@ -85,6 +85,7 @@ describe('GH issue 997', () => {
 
     child2.params.add(param1, param2);
 
+    // bug "works" only if we fetch something from same table, but with other id
     const fetchedParamsAgain = await orm.em.createQueryBuilder(Param, 'param').where({ child: true }).getResult();
 
     expect(wrap(param1, true).__originalEntityData!.child).toBeUndefined();
